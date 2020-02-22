@@ -1,4 +1,5 @@
 export DOCKER_TERRAFORM_TAG = 0.12.21
+export AWS_CONFIG_DIR = ${HOME}/.aws
 
 ash:
 	docker run \
@@ -8,6 +9,7 @@ ash:
       --entrypoint "" \
       --workdir /terraform \
       --mount type=bind,source=${PWD}/terraform,target=/terraform \
+      --mount type=bind,source=${AWS_CONFIG_DIR},target=/.aws \
       hashicorp/terraform:${DOCKER_TERRAFORM_TAG} \
       ash
 
