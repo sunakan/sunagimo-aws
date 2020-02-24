@@ -1,0 +1,8 @@
+=== (cloud9等で)EC2インスタンスにアタッチされたロールからAssumeRoleしたい時
+
+.~/.aws/credentials
+----
+[xxx]
+role_arn=arn:aws:iam::xxxxxxxx:role/xxx-role
+credential_source=Ec2InstanceMetadata
+----
