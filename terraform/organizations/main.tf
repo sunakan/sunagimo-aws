@@ -1,17 +1,3 @@
-################################################################################
-# AWS Organizations
-################################################################################
-resource "aws_organizations_organization" "this" {
-  feature_set = "ALL"
-}
-
-################################################################################
-# Foundational OU
-################################################################################
-resource "aws_organizations_organizational_unit" "foundational" {
-  name      = "Foundational"
-  parent_id = aws_organizations_organization.this.roots.0.id
-}
 locals {
   foundational_account_names = [
     "custodian",
@@ -19,19 +5,29 @@ locals {
     "audit",
   ]
 }
-resource "aws_organizations_account" "foundational_accounts" {
-  count                      = length(local.foundational_account_names)
-  name                       = element(local.foundational_account_names, count.index)
-  email                      = replace(aws_organizations_organization.this.master_account_email, "/(.*)@gmail.com/", "$1+${element(local.foundational_account_names, count.index)}@gmail.com")
-  iam_user_access_to_billing = "ALLOW"
-  parent_id                  = aws_organizations_organizational_unit.foundational.id
-  role_name                  = var.organization_account_access_role_name
+
+provider "aws" {
+  region                  = "ap-northeast-1"
+  profile                 = "master"
+  shared_credentials_file = "~/.aws/credentials"
 }
 
-################################################################################
-# WorkLoad OU
-################################################################################
-resource "aws_organizations_organizational_unit" "workload" {
-  name      = "Workload"
-  parent_id = aws_organizations_organization.this.roots.0.id
+#provider "aws" {
+#  alias   = "iac"
+#  region  = "ap-northeast-1"
+#  profile = "iac"
+#  shared_credentials_file = "~/.aws/credentials"
+#  assume_role {
+#    role_arn = "arn:aws:iam::${organization}:role/OrganizationAccountAccessRole"
+#  }
+#}
+
+provider "aws" {
+  alias                   = "custodian"
+  region                  = "ap-northeast-1"
+  profile                 = "custodian"
+  shared_credentials_file = "~/.aws/credentials"
+  assume_role {
+    role_arn = "arn:aws:iam::xxxxxxxx:role/OrganizationAccountAccessRole"
+  }
 }
