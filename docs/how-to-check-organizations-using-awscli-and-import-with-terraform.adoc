@@ -1,9 +1,18 @@
 == aws cliでOrganizationsを確認する方法
 
-.Organizationsを確認
+.Organizationsを確認とterraform import
 ----
 $ aws \
   organizations describe-organization
+----
+
+----
+$ aws \
+  organizations describe-organization \
+  --query Organization.Id \
+  --output text \
+| xargs -I{} terraform import \
+  aws_organizations_organization.xxx {}
 ----
 
 .Rootアカウントを確認
@@ -12,7 +21,7 @@ $ aws \
   organizations list-roots
 ----
 
-.OU一覧
+.OU一覧とterraform import
 ----
 $ aws \
   organizations list-roots \
@@ -23,8 +32,33 @@ $ aws \
   --parent-id {}
 ----
 
-.Organizationsのアカウント一覧
+----
+$ aws \
+  organizations list-roots \
+  --query Roots[].Id \
+  --output text \
+| xargs -I{} aws \
+  organizations list-organizational-units-for-parent \
+  --parent-id {} \
+  --query OrganizationalUnits[].[Name,Id] \
+  --output text
+  
+で確認してimport(シェル芸をサボった)
+$ terraform import aws_organizations_organizational_unit.xxx ou-xxxx
+----
+
+.Organizationsのアカウント一覧とterraform import
 ----
 $ aws \
   organizations list-accounts
 ----
+
+----
+$ aws \
+  organizations list-accounts \
+  --query Accounts[].[Name,Id] \
+  --output text
+
+で確認してimport(シェル芸をサボった)
+$ terraform import aws_organizations_account.xxxx xxxxxx(account_id)
+---
