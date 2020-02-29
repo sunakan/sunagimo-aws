@@ -1,5 +1,11 @@
 == aws cliでOrganizationsを確認する方法
 
+.Organizationsを確認
+----
+$ aws \
+  organizations describe-organization
+----
+
 .Rootアカウントを確認
 ----
 $ aws \
