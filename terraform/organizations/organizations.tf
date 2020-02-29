@@ -13,15 +13,6 @@ resource "aws_organizations_organizational_unit" "foundational" {
   parent_id = aws_organizations_organization.this.roots.0.id
 }
 
-resource "aws_organizations_account" "foundational_accounts" {
-  count                      = length(local.foundational_account_names)
-  name                       = element(local.foundational_account_names, count.index)
-  email                      = replace(aws_organizations_organization.this.master_account_email, "/(.*)@gmail.com/", "$1+${element(local.foundational_account_names, count.index)}@gmail.com")
-  iam_user_access_to_billing = "ALLOW"
-  parent_id                  = aws_organizations_organizational_unit.foundational.id
-  role_name                  = var.organization_account_access_role_name
-}
-
 ################################################################################
 # WorkLoad OU
 ################################################################################
