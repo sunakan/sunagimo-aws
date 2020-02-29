@@ -6,3 +6,5 @@
 role_arn=arn:aws:iam::xxxxxxxx:role/xxx-role
 credential_source=Ec2InstanceMetadata
 ----
+
+include::./docs/how-to-check-organization-by-using-awscli.adoc[]

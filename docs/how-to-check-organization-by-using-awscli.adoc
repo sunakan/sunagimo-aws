@@ -1,0 +1,24 @@
+== aws cliでOrganizationsを確認する方法
+
+.Rootアカウントを確認
+----
+$ aws \
+  organizations list-roots
+----
+
+.OU一覧
+----
+$ aws \
+  organizations list-roots \
+  --query Roots[].Id \
+  --output text \
+| xargs -I{} aws \
+  organizations list-organizational-units-for-parent \
+  --parent-id {}
+----
+
+.Organizationsのアカウント一覧
+----
+$ aws \
+  organizations list-accounts
+----
