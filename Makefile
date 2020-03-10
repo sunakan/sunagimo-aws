@@ -1,8 +1,11 @@
 export DOCKER_TERRAFORM_TAG = 0.12.23
-export AWS_CONFIG_DIR = ${HOME}/.aws
+export AWS_CONFIG_DIR_ABSOLUTE_PATH = ${PWD}/aws-config-files
+
+aws-config-files:
+	mkdir -p ${AWS_CONFIG_DIR_ABSOLUTE_PATH}
 
 .PHONY: ash
-ash:
+ash: aws-config-files
 	docker run \
       --interactive \
       --tty \
@@ -10,7 +13,7 @@ ash:
       --entrypoint "" \
       --workdir /terraform \
       --mount type=bind,source=${PWD}/terraform,target=/terraform \
-      --mount type=bind,source=${AWS_CONFIG_DIR},target=/.aws \
+      --mount type=bind,source=${AWS_CONFIG_DIR_ABSOLUTE_PATH},target=/.aws \
       hashicorp/terraform:${DOCKER_TERRAFORM_TAG} \
       ash
 
