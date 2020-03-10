@@ -1,4 +1,4 @@
-export DOCKER_TERRAFORM_TAG = 0.12.21
+export DOCKER_TERRAFORM_TAG = 0.12.23
 export AWS_CONFIG_DIR = ${HOME}/.aws
 
 ash:
