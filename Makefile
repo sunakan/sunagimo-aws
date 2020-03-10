@@ -1,6 +1,7 @@
 export DOCKER_TERRAFORM_TAG = 0.12.23
 export AWS_CONFIG_DIR = ${HOME}/.aws
 
+.PHONY: ash
 ash:
 	docker run \
       --interactive \
@@ -13,5 +14,6 @@ ash:
       hashicorp/terraform:${DOCKER_TERRAFORM_TAG} \
       ash
 
+.PHONY: v
 v:
 	docker run --tty hashicorp/terraform:${DOCKER_TERRAFORM_TAG} version
