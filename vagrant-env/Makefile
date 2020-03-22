@@ -22,7 +22,7 @@ rsync-ansible:
 		--exclude 'tmp' \
 		--exclude 'log' \
 		./ansible \
-		vagrant@${KONGO_IP}:/home/vagrant/
+		vagrant@${SUNAGIMO_IP}:/home/vagrant/
 
 .PHONY: provision
 provision:
