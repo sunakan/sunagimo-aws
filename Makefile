@@ -20,3 +20,7 @@ ash: aws-config-files
 .PHONY: v
 v:
 	docker run --tty hashicorp/terraform:${DOCKER_TERRAFORM_TAG} version
+
+.PHONY: puml
+puml:
+	cd plantuml-server && make puml
