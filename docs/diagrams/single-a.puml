@@ -1,0 +1,61 @@
+@startuml
+
+skinparam defaultFontName Ricty Diminished
+
+' 影をなくす
+skinparam shadowing false
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/master/dist
+!includeurl AWSPuml/AWSCommon.puml
+!includeurl AWSPuml/General/User.puml
+!includeurl AWSPuml/SecurityIdentityAndCompliance/IAMResource.puml
+!includeurl AWSPuml/SecurityIdentityAndCompliance/IAMPermissions.puml
+!includeurl AWSPuml/GroupIcons/Cloud.puml
+!includeurl AWSPuml/Storage/S3Bucket.puml
+!includeurl AWSPuml/NetworkingAndContentDelivery/VPC.puml
+!includeurl AWSPuml/AWSSimplified.puml
+
+Cloud(aws, AWSアカウント, "") {
+  S3Bucket(s3, s3, "")
+  VPC(vpc_cn_dev, "VPC\n(dev)", "") {
+    agent "Project-C\n(dev)"
+  }
+  VPC(vpc_cn_stg, "VPC\n(stg)", "") {
+    agent "Project-C\n(stg)"
+  }
+  VPC(vpc_cn_prd, "VPC\n(prd)", "") {
+    agent "Project-C\n(prd)"
+  }
+  VPC(vpc_dev, "VPC\n(dev)", "") {
+    agent "Project-A\n(dev)"
+    agent "Project-B\n(dev)"
+  }
+  VPC(vpc_stg, "VPC\n(stg)", "") {
+    agent "Project-A\n(stg)"
+    agent "Project-B\n(stg)"
+  }
+  VPC(vpc_prd, "VPC\n(prd)", "") {
+    agent "Project-A\n(prd)"
+    agent "Project-B\n(prd)"
+  }
+  IAMResource(iam, IAM, "") {
+    IAMPermissions(iam_permissions, IAM Policy, "")
+    frame "IAM Group" as iam_group {
+      User(iam_user, IAM User, "")
+    }
+  }
+}
+
+!define ICONURL https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v2.1.0
+!includeurl ICONURL/common.puml
+!includeurl ICONURL/font-awesome/server.puml
+
+FA_SERVER(web_dev,オンプレ\n(dev))
+FA_SERVER(web_stg,オンプレ\n(stg))
+FA_SERVER(web_prd,オンプレ\n(prd))
+
+vpc_dev -- web_dev
+vpc_stg -- web_stg
+vpc_prd -- web_prd
+
+@enduml
